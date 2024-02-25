@@ -16,7 +16,7 @@ const refs = {
 
 let query;
 let page;
-let maxPage;
+let maxPage = 4;
 
 refs.formElem.addEventListener('submit', onFormSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreClick);
@@ -26,14 +26,7 @@ async function onFormSubmit(e) {
 
   query = e.target.elements.input.value.trim();
 
-  if (!query) {
-    iziToast.error({
-      message:
-        'Sorry, there are no images matching your search query. Please try again!',
-      position: 'topRight',
-    });
-    return;
-  }
+ 
 
   page = 1;
   showLoader();
@@ -43,26 +36,41 @@ async function onFormSubmit(e) {
     if (data.hits.length === 0) {
       iziToast.error({
         message:
-          'Sorry, there are no images matching your search query. Please try again!',
+          'Sorry, there are no images matching your search query. Please try again!2',
         position: 'topRight',
       });
+      
+      
       return;
     }
-    maxPage = Math.ceil(data.total / 10);
+    //maxPage = Math.ceil(data.total / 10);
 
     refs.gallery.innerHTML = '';
     renderMarkups(data.hits);
   } catch (err) {
     showError(err);
-    maxPage = 0;
+    //maxPage = 0;
     refs.gallery.innerHTML = '';
   }
 
   hideLoader();
   checkBtnVisibleStatus();
-
+  
   e.target.reset();
+
+  if (!query) {
+    iziToast.error({
+      message:
+        'Sorry, there are no images matching your search query. Please try again!1',
+      position: 'topRight',
+    });
+    
+    refs.gallery.innerHTML = '';
+    hideLoadBtn()
+    return;
+  }
 }
+
 
 async function onLoadMoreClick() {
   page += 1;
@@ -77,14 +85,30 @@ async function onLoadMoreClick() {
     behavior: 'smooth',
     top: '500',
   });
+
+  
 }
 
+// function renderMarkups(hits) {
+//   const markup = hitsTemplate(hits);
+
+//   refs.gallery.insertAdjacentHTML('beforeend', markup);
+//   lightbox = new SimpleLightbox('.gallery a', options);
+ 
+//   lightbox.refresh();
+// }
+
+let lightbox = null;
 function renderMarkups(hits) {
   const markup = hitsTemplate(hits);
 
   refs.gallery.insertAdjacentHTML('beforeend', markup);
-  const lightbox = new SimpleLightbox('.gallery a', options);
-  lightbox.refresh();
+  
+  if (!lightbox) {
+    lightbox = new SimpleLightbox('.gallery a', options);
+  } else {
+    lightbox.refresh();
+  }
 }
 
 function showLoadBtn() {

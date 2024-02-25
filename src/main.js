@@ -16,7 +16,7 @@ const refs = {
 
 let query;
 let page;
-let maxPage = 4;
+let maxPage = 3;
 
 refs.formElem.addEventListener('submit', onFormSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreClick);
@@ -26,7 +26,6 @@ async function onFormSubmit(e) {
 
   query = e.target.elements.input.value.trim();
 
- 
 
   page = 1;
   showLoader();
@@ -40,7 +39,7 @@ async function onFormSubmit(e) {
         position: 'topRight',
       });
       
-      
+      refs.gallery.innerHTML = '';
       return;
     }
     //maxPage = Math.ceil(data.total / 10);
@@ -88,15 +87,6 @@ async function onLoadMoreClick() {
 
   
 }
-
-// function renderMarkups(hits) {
-//   const markup = hitsTemplate(hits);
-
-//   refs.gallery.insertAdjacentHTML('beforeend', markup);
-//   lightbox = new SimpleLightbox('.gallery a', options);
- 
-//   lightbox.refresh();
-// }
 
 let lightbox = null;
 function renderMarkups(hits) {

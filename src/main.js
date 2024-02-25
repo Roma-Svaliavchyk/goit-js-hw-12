@@ -16,7 +16,7 @@ const refs = {
 
 let query;
 let page;
-let maxPage = 3;
+let maxPage;
 
 refs.formElem.addEventListener('submit', onFormSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreClick);
@@ -26,7 +26,7 @@ async function onFormSubmit(e) {
 
   query = e.target.elements.input.value.trim();
 
-
+  maxPage = 3;
   page = 1;
   showLoader();
 
@@ -40,6 +40,8 @@ async function onFormSubmit(e) {
       });
       
       refs.gallery.innerHTML = '';
+      maxPage = 0;
+      hideLoadBtn()
       return;
     }
     //maxPage = Math.ceil(data.total / 10);

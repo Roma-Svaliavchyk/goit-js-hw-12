@@ -41,7 +41,8 @@ async function onFormSubmit(e) {
       
       refs.gallery.innerHTML = '';
       maxPage = 0;
-      hideLoadBtn()
+      hideLoadBtn();
+      hideLoader();
       return;
     }
     //maxPage = Math.ceil(data.total / 10);
@@ -68,6 +69,7 @@ async function onFormSubmit(e) {
     
     refs.gallery.innerHTML = '';
     hideLoadBtn()
+    hideLoader();
     return;
   }
 }
